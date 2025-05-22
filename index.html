@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>রসায়ন MCQ অনুশীলন (সকল প্রশ্ন) made by Tanvir</title>
+    <title>রসায়ন MCQ অনুশীলন (সকল প্রশ্ন)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
             background-color: #f1f5f9; /* Tailwind bg-slate-100 */
             color: #334155; /* Tailwind text-slate-700 */
+            padding-bottom: 80px; /* Add padding for floating search */
         }
         .question-block {
             border: 1px solid #e2e8f0; /* Tailwind border-slate-200 */
@@ -18,9 +19,21 @@
             border-radius: 0.75rem; /* Tailwind rounded-xl */
             background-color: white;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* Tailwind shadow-lg */
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(20px); /* Initial state for animation */
+            animation: fadeInSlideUp 0.5s ease-out forwards;
+        }
+        @keyframes fadeInSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .option-btn {
-            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+        .option-btn:hover {
+            transform: translateY(-2px);
         }
         .option-btn.selected {
             background-color: #bae6fd; /* Tailwind bg-sky-200 */
@@ -28,28 +41,28 @@
         }
         .correct-answer-highlight {
             background-color: #d1fae5 !important; /* Tailwind bg-emerald-100 */
-            border: 2px solid #10b981 !important; 
-            color: #059669; 
+            border: 2px solid #10b981 !important;
+            color: #059669;
         }
         .wrong-answer-highlight {
             background-color: #fee2e2 !important; /* Tailwind bg-red-100 */
-            border: 2px solid #ef4444 !important; 
-            color: #b91c1c; 
+            border: 2px solid #ef4444 !important;
+            color: #b91c1c;
         }
         ::-webkit-scrollbar {
             width: 10px;
             height: 10px;
         }
         ::-webkit-scrollbar-track {
-            background: #e2e8f0; 
+            background: #e2e8f0;
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
-            background: #94a3b8; 
+            background: #94a3b8;
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #64748b; 
+            background: #64748b;
         }
         /* Modal styles */
         .modal {
@@ -110,8 +123,53 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        /* Floating Search Bar Styles */
+        .floating-search-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 8px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+            width: 60px; /* Initial width */
+            overflow: hidden;
+        }
+        .floating-search-container.expanded {
+            width: 300px; /* Expanded width */
+            border-radius: 8px;
+        }
+        .search-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #64748b; /* Tailwind slate-500 */
+            transition: color 0.2s ease-in-out;
+        }
+        .search-icon:hover {
+            color: #334155; /* Tailwind slate-700 */
+        }
+        .search-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 0 10px;
+            font-size: 1rem;
+            color: #334155;
+            background-color: transparent;
+            width: 100%;
+        }
+        .search-input::placeholder {
+            color: #94a3b8; /* Tailwind slate-400 */
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome for search icon -->
 </head>
 <body class="min-h-screen">
 
@@ -120,7 +178,7 @@
             <div class="text-center py-8">
                 <h1 class="text-3xl sm:text-4xl font-bold text-sky-700 mb-4">রসায়ন MCQ অনুশীলন (সকল প্রশ্ন)</h1>
                 <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                   রসায়ন পরীক্ষার প্রস্তুতির জন্য এই ইন্টারঅ্যাকটিভ প্ল্যাটফর্মটি তৈরি করা হয়েছে। এখানে সকল প্রশ্ন ধারাবাহিকভাবে প্রদান করা হয়েছে। প্রতিটি প্রশ্নের সঠিক উত্তর ও বিস্তারিত ব্যাখ্যা জানার সুযোগ রয়েছে। এছাড়াও, প্রতিটি প্রশ্নের সাথে সম্পর্কিত বিষয়গুলো আরও ভালোভাবে বুঝতে AI-এর সাহায্য নিতে পারেন।
+                   রসায়ন পরীক্ষার প্রস্তুতির জন্য এই ইন্টারঅ্যাকটিভ প্ল্যাটফর্মটি তৈরি করা হয়েছে। এখানে সকল প্রশ্ন ধারাবাহিকভাবে প্রদান করা হয়েছে। প্রতিটি প্রশ্নের সঠিক উত্তর ও বিস্তারিত ব্যাখ্যা জানার সুযোগ রয়েছে। এছাড়াও, প্রতিটি প্রশ্নের সাথে সম্পর্কিত বিষয়গুলো আরও ভালোভাবে বুঝতে AI-এর সাহায্য নিতে পারেন। Made by Tanvir
                 </p>
                 <p id="total-questions-display" class="mt-4 text-md font-semibold text-sky-600"></p>
                 <p class="mt-6 text-sm text-slate-500">শুভকামনা আপনার পরীক্ষার জন্য!</p>
@@ -1161,7 +1219,97 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', renderAllQuestions);
+    // TODO: Integrate image display for questions that have them, based on user provided information.
+
+    // Floating Search Bar Functionality
+    const floatingSearchContainer = document.createElement('div');
+    floatingSearchContainer.classList.add('floating-search-container');
+    floatingSearchContainer.innerHTML = `
+        <i class="fas fa-search search-icon" id="search-icon"></i>
+        <input type="text" class="search-input hidden" id="search-input" placeholder="প্রশ্ন খুঁজুন...">
+    `;
+    document.body.appendChild(floatingSearchContainer);
+
+    const searchIcon = document.getElementById('search-icon');
+    const searchInput = document.getElementById('search-input');
+    let questionBlocks = []; // Initialize as empty array
+
+    searchIcon.addEventListener('click', () => {
+        floatingSearchContainer.classList.toggle('expanded');
+        searchInput.classList.toggle('hidden');
+        if (floatingSearchContainer.classList.contains('expanded')) {
+            searchInput.focus();
+        } else {
+            searchInput.value = '';
+            filterQuestions(''); // Clear filter when collapsed
+        }
+    });
+
+    searchInput.addEventListener('input', (event) => {
+        filterQuestions(event.target.value);
+    });
+
+    // Helper function to convert Bengali numerals to English numerals
+    function convertToEnglishNumerals(inputString) {
+        const bengaliToEnglishMap = {
+            '০': '0', '১': '1', '২': '2', '৩': '3', '৪': '4',
+            '৫': '5', '৬': '6', '৭': '7', '৮': '8', '৯': '9'
+        };
+        return inputString.replace(/[০-৯]/g, char => bengaliToEnglishMap[char]);
+    }
+
+    function filterQuestions(searchText) {
+        // Convert search text to English numerals for robust matching
+        const englishSearchText = convertToEnglishNumerals(searchText);
+        const lowerCaseEnglishSearchText = englishSearchText.toLowerCase();
+        const lowerCaseSearchTextOriginal = searchText.toLowerCase(); // Keep original for general text search
+
+        // Check if the search text is a question number (using English numerals)
+        const questionNumberMatch = lowerCaseEnglishSearchText.match(/^প্রশ্ন\s*(\d+)$/);
+        if (questionNumberMatch && questionNumberMatch[1]) {
+            const searchQuestionNumber = parseInt(questionNumberMatch[1], 10);
+            questionBlocks.forEach((block, index) => {
+                if (index + 1 === searchQuestionNumber) {
+                    block.style.display = 'block';
+                } else {
+                    block.style.display = 'none';
+                }
+            });
+            return; // Exit if searching by question number
+        }
+
+        // Otherwise, perform text-based search, checking against both original and English numeral versions
+        questionBlocks.forEach((block, index) => {
+            const questionData = allMcqData[index];
+            const questionNumberEnglish = `প্রশ্ন ${index + 1}`; // English numeral question number
+            const chapterText = questionData.chapter.toLowerCase();
+            const questionText = questionData.question.toLowerCase();
+            const optionsText = questionData.options.join(' ').toLowerCase();
+            const explanationText = (questionData.explanation || '').toLowerCase();
+
+            // Convert question data fields to English numerals for consistent comparison
+            const questionTextEnglishNumerals = convertToEnglishNumerals(questionText);
+            const optionsTextEnglishNumerals = convertToEnglishNumerals(optionsText);
+            const explanationTextEnglishNumerals = convertToEnglishNumerals(explanationText);
+            const chapterTextEnglishNumerals = convertToEnglishNumerals(chapterText);
+
+
+            if (questionNumberEnglish.includes(lowerCaseEnglishSearchText) || // Search by English question number
+                chapterText.includes(lowerCaseSearchTextOriginal) || chapterTextEnglishNumerals.includes(lowerCaseEnglishSearchText) ||
+                questionText.includes(lowerCaseSearchTextOriginal) || questionTextEnglishNumerals.includes(lowerCaseEnglishSearchText) ||
+                optionsText.includes(lowerCaseSearchTextOriginal) || optionsTextEnglishNumerals.includes(lowerCaseEnglishSearchText) ||
+                explanationText.includes(lowerCaseSearchTextOriginal) || explanationTextEnglishNumerals.includes(lowerCaseEnglishSearchText)) {
+                block.style.display = 'block';
+            } else {
+                block.style.display = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderAllQuestions();
+        questionBlocks = document.querySelectorAll('.question-block'); // Populate after rendering
+    });
 
 </script>
 </body>
